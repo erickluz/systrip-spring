@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,18 +20,19 @@ public class PassengerResource {
 	private PassengerService passengerService;
 	
 	@PostMapping
-	public ResponseEntity<Passenger> savePassenger(Passenger passenger) {
+	public ResponseEntity<Passenger> savePassenger(@RequestBody Passenger passenger) {
 		passengerService.save(passenger);
+		System.out.println("POST");
 		return ResponseEntity.noContent().build();
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Passenger> findById(@PathVariable("id") Long id) {
+	public ResponseEntity<Passenger> findById(@PathVariable("id") Integer id) {
 		return ResponseEntity.ok(passengerService.findById(id));
 	}
 	
 	@PostMapping("/trip")
-	public ResponseEntity<Void> requestTrip(TripRequest tripRequest) {
+	public ResponseEntity<Void> requestTrip(@RequestBody TripRequest tripRequest) {
 		passengerService.requestTrip(tripRequest);
 		return ResponseEntity.noContent().build();
 	}

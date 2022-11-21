@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.erick.passenger.domain.Passenger;
 
 @Repository
-public interface PassengerRepository extends CrudRepository<Passenger, Long> {
+public interface PassengerRepository extends CrudRepository<Passenger, Integer> {
 
 }

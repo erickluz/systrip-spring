@@ -13,8 +13,8 @@ import lombok.EqualsAndHashCode;
 @Entity
 public class Passenger {
 	@Id 
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
 	private String name;
 	private String cpf;
 	private String phoneNumber;

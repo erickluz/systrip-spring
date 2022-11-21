@@ -11,6 +11,7 @@ services:
     volumes:
       - /home/erickluz/dev/projects/workspaces/systrip-spring/source/driver/deploy/script/driver.sql:/docker-entrypoint-initdb.d/driver.sql
       - /home/erickluz/dev/projects/workspaces/systrip-spring/source/trip/deploy/script/trip.sql:/docker-entrypoint-initdb.d/trip.sql
+      - /home/erickluz/dev/projects/workspaces/systrip-spring/source/passenger/deploy/script/passenger.sql:/docker-entrypoint-initdb.d/passenger.sql
   rabbitmq:
     image: rabbitmq:3-management
     restart: unless-stopped

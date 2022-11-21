@@ -19,7 +19,7 @@ public class PassengerService {
 		return passengerRepository.save(passenger);
 	}
 	
-	public Passenger findById(Long id) {
+	public Passenger findById(Integer id) {
 		return passengerRepository.findById(id).orElse(null);
 	}
 	

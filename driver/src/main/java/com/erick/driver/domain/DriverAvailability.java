@@ -10,7 +10,7 @@ import lombok.ToString;
 public class DriverAvailability implements Serializable {
     private static final long serialVersionUID = 1L;
     
-	private Long idDriver;
+	private Integer idDriver;
     private String currentAddress;
     private String district;
 }

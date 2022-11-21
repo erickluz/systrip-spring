@@ -22,7 +22,6 @@ public class DriverResource {
 	
 	@PostMapping
 	public ResponseEntity<Driver> saveDriver(@RequestBody Driver driver) {
-		System.out.println(driver);
 		driverService.save(driver);
 		return ResponseEntity.noContent().build();
 	}
