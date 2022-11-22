@@ -9,9 +9,21 @@ services:
     environment:
       POSTGRES_PASSWORD: 123456
     volumes:
-      - /home/erickluz/dev/projects/workspaces/systrip-spring/source/driver/deploy/script/driver.sql:/docker-entrypoint-initdb.d/driver.sql
-      - /home/erickluz/dev/projects/workspaces/systrip-spring/source/trip/deploy/script/trip.sql:/docker-entrypoint-initdb.d/trip.sql
-      - /home/erickluz/dev/projects/workspaces/systrip-spring/source/passenger/deploy/script/passenger.sql:/docker-entrypoint-initdb.d/passenger.sql
+      - type: bind
+        source: ./driver/deploy/script/driver.sql
+        target: /docker-entrypoint-initdb.d/driver.sql
+        volume:
+          nocopy: true  # flag to disable copying of data from a container when a volume is created
+      - type: bind
+        source: ./passenger/deploy/script/passenger.sql
+        target: /docker-entrypoint-initdb.d/passenger.sql
+        volume:
+          nocopy: true  # flag to disable copying of data from a container when a volume is created
+      - type: bind
+        source: ./trip/deploy/script/trip.sql
+        target: /docker-entrypoint-initdb.d/trip.sql
+        volume:
+          nocopy: true  # flag to disable copying of data from a container when a volume is created
   rabbitmq:
     image: rabbitmq:3-management
     restart: unless-stopped
