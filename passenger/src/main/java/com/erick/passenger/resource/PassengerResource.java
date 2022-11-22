@@ -22,7 +22,6 @@ public class PassengerResource {
 	@PostMapping
 	public ResponseEntity<Passenger> savePassenger(@RequestBody Passenger passenger) {
 		passengerService.save(passenger);
-		System.out.println("POST");
 		return ResponseEntity.noContent().build();
 	}
 	
