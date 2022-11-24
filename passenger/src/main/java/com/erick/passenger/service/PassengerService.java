@@ -1,5 +1,7 @@
 package com.erick.passenger.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,10 @@ public class PassengerService {
 	
 	public void requestTrip(TripRequest tripRequest) {
 		messageService.sendMessage(tripRequest);
+	}
+
+	public List<Passenger> findAll() {
+		return (List<Passenger>) passengerRepository.findAll();
 	}
 	
 }

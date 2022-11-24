@@ -1,5 +1,8 @@
 package com.erick.driver.resource;
 
+import java.net.URI;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.erick.driver.domain.Driver;
 import com.erick.driver.domain.DriverAvailability;
@@ -22,8 +26,9 @@ public class DriverResource {
 	
 	@PostMapping
 	public ResponseEntity<Driver> saveDriver(@RequestBody Driver driver) {
-		driverService.save(driver);
-		return ResponseEntity.noContent().build();
+		Driver obj = driverService.save(driver);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
 	}
 	
 	@GetMapping("/{id}")
@@ -35,6 +40,11 @@ public class DriverResource {
 	public ResponseEntity<Void> signalAvailability(@RequestBody DriverAvailability driverAvailability) {
 		driverService.sendAvailability(driverAvailability);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<Driver>> getDrivers() {
+		return ResponseEntity.ok(driverService.findAll());
 	}
 
 }

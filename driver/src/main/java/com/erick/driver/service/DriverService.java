@@ -1,5 +1,7 @@
 package com.erick.driver.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,10 @@ public class DriverService {
 	
 	public void sendAvailability(DriverAvailability driverAvailability) {
 		messageService.sendMessage(driverAvailability);
+	}
+
+	public List<Driver> findAll() {
+		return (List<Driver>) driverRepository.findAll();
 	}
 
 }

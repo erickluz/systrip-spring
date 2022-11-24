@@ -42,5 +42,6 @@ services:
       - 8081:8080
   reddis:
     image: redis:7.0.5
+    restart: aways
     ports:
         - "6379:6379"
