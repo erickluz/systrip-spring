@@ -32,7 +32,7 @@ class TestRunnerApplicationTests {
 	void startTrips() {
 		registerDriversAndPassengers();
 		int i = 0;
-		while (i < 10) {
+		while (i < 100) {
 		
 			passengerRequestTrip(0, "Rua 1", "Rua 2", "Moema");
 			driverSignalAvaibility(0, "Rua 1", "Moema");
@@ -97,7 +97,8 @@ class TestRunnerApplicationTests {
 		.when()
 		.get();
 		
-		List<Passenger> passengers =  Utils.fromJsonList(response.getBody().asString());
+		String json = response.getBody().asString();
+		List<Passenger> passengers = Utils.fromJsonListPassenger(json);
 		
 		response.then()
 		.statusCode(HttpStatus.SC_OK);
@@ -111,7 +112,7 @@ class TestRunnerApplicationTests {
 		.when()
 		.get();
 		
-		ArrayList<Driver> drivers = (ArrayList<Driver>) Utils.fromJsonList(response.getBody().asString(), Driver.class);
+		List<Driver> drivers = Utils.fromJsonListDriver(response.getBody().asString());
 		
 		response.then()
 		.statusCode(HttpStatus.SC_OK);
