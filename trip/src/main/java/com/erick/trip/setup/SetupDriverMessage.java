@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class SetupDriverMessage {
 	private final static String QUEUE_NAME = "driverTrip";
 	private final static String TOPIC_EXCHANGE_NAME = "driverExchange";
+
 	
 	@Bean
 	public Queue queueDriver() {

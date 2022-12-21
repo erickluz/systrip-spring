@@ -5,6 +5,7 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,6 +13,12 @@ import org.springframework.context.annotation.Configuration;
 public class SetupMessage {
 	private final static String QUEUE_NAME = "passengerTrip";
 	private final static String TOPIC_EXCHANGE_NAME = "passengerExchange";
+	@Value("${rabbitmq.address}")
+	private String RABBIT_MQ_ADDRESS;
+	@Value("${rabbitmq.user}")
+	private String RABBIT_MQ_USER;
+	@Value("${rabbitmq.password}")
+	private String RABBIT_MQ_PASSWORD;
 	
 	@Bean
 	public Queue queue() {
@@ -31,8 +38,9 @@ public class SetupMessage {
 	@Bean
 	public CachingConnectionFactory defaultConnectionFactory() {
 	    CachingConnectionFactory cf = new CachingConnectionFactory();
-	    cf.setUsername("adm");
-	    cf.setPassword("adm");
+	    cf.setUsername(RABBIT_MQ_USER);
+	    cf.setPassword(RABBIT_MQ_PASSWORD);
+	    cf.setAddresses(RABBIT_MQ_ADDRESS);
 	    return cf;
 	}
 
