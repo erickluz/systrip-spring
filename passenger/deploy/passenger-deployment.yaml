@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: passenger-systrip
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: passenger-systrip
+  template:
+    metadata:
+      labels:
+        app: passenger-systrip
+    spec:
+      containers:
+      - env:
+        - name: SYSTRIP_ENV
+          value: "prod"
+        - name: SPRING_PROFILES_ACTIVE
+          value: "prod"
+        - name: POSTGRES_DRIVER_DB_URL
+          value: "jdbc:postgresql://postgres:30432/passenger"
+        - name: USER_BD
+          value: "postgres"
+        - name: PASSWORD_BD
+          value: "123456"
+        - name: RABBIT_ADDRESS
+          value: "hello-world"
+        - name: RABIT_USER
+          value: "adm"
+        - name: RABIT_PASSWORD
+          value: "adm"
+        - name: DRIVER_PORT
+          value: "8082"
+        image: erickluz360/driver
+        imagePullPolicy: IfNotPresent
+        name: driver-systrip
+        ports:
+        - containerPort: 8082
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: driver-systrip
+  name: driver-systrip
+  namespace: default
+spec:
+  ports:
+  - name: padmin-port
+    nodePort: 30180
+    port: 8082
+    targetPort: 8092
+  selector:
+    app: driver-systrip
+  type: NodePort
