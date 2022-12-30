@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trip-systrip
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trip-systrip
+  template:
+    metadata:
+      labels:
+        app: trip-systrip
+    spec:
+      containers:
+      - env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "prod"
+        - name: POSTGRES_TRIP_DB_URL
+          value: "jdbc:postgresql://postgres.default.svc.cluster.local:5432/trip"
+        - name: USER_BD
+          value: "postgres"
+        - name: PASSWORD_BD
+          value: "root"
+        - name: RABBIT_ADDRESS
+          value: "hello-world.default.svc.cluster.local"
+        - name: RABIT_USER
+          value: "default_user_SDxxt7zYpSxMN2KumoI"
+        - name: RABIT_PASSWORD
+          value: "5MdOHbpXrEHFFA83KVL5Y9jUeCewCnGF"
+        - name: TRIP_PORT
+          value: "8083"
+        - name: REDIS_ADDRESS
+          value: "redis-master.default.svc.cluster.local"
+        - name: REDIS_PORT
+          value: "6379"
+        image: erickluz360/trip
+        imagePullPolicy: "Always"
+        name: trip-systrip
+        ports:
+        - containerPort: 8083
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: trip-systrip
+  name: trip-systrip
+  namespace: default
+spec:
+  ports:
+  - name: trip-port
+    nodePort: 30182
+    port: 8083
+    targetPort: 8083
+  selector:
+    app: trip-systrip
+  type: NodePort

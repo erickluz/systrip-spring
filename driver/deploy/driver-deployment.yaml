@@ -15,16 +15,12 @@ spec:
     spec:
       containers:
       - env:
-        - name: SYSTRIP_ENV
-          value: "prod"
-        - name: SPRING_PROFILES_ACTIVE
-          value: "prod"
         - name: POSTGRES_DRIVER_DB_URL
-          value: "jdbc:postgresql://postgres:30432/driver"
+          value: "jdbc:postgresql://postgres.default.svc.cluster.local:5432/driver"
         - name: USER_BD
           value: "postgres"
         - name: PASSWORD_BD
-          value: "123456"
+          value: "root"
         - name: RABBIT_ADDRESS
           value: "hello-world"
         - name: RABIT_USER
@@ -34,7 +30,7 @@ spec:
         - name: DRIVER_PORT
           value: "8082"
         image: erickluz360/driver
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: "Always"
         name: driver-systrip
         ports:
         - containerPort: 8082
@@ -48,10 +44,10 @@ metadata:
   namespace: default
 spec:
   ports:
-  - name: padmin-port
+  - name: driver-port
     nodePort: 30180
     port: 8082
-    targetPort: 8092
+    targetPort: 8082
   selector:
     app: driver-systrip
   type: NodePort
