@@ -1,6 +1,5 @@
 version: '3.1'
 services:
-
   db:
     image: postgres:14
     restart: always
@@ -47,16 +46,20 @@ services:
         - "6379:6379"
   driver:
     image: erickluz360/driver:latest
-    ports:
-      - 8082:8082
+    expose:
+      - "8082"
+    deploy:
+      replicas: 2
     depends_on:
       - db
       - rabbitmq
       - reddis
   passenger:
     image: erickluz360/passenger:latest
-    ports:
-      - 8084:8084
+    expose:
+      - "8084"
+    deploy:
+      replicas: 2
     depends_on:
       - driver
   trip:
@@ -65,3 +68,19 @@ services:
       - 8083:8083
     depends_on:
       - passenger
+  nginx-driver:
+    image: nginx:latest
+    volumes:
+      - ./nginx-driver.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - driver
+    ports:
+      - "9000:9000"
+  nginx-passenger:
+    image: nginx:latest
+    volumes:
+      - ./nginx-passenger.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - driver
+    ports:
+      - "9001:9001"
