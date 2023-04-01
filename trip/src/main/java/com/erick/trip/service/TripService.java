@@ -18,7 +18,10 @@ import com.erick.trip.domain.travel.TravelStatusHistory;
 import com.erick.trip.repository.TravelRepository;
 import com.erick.trip.repository.TravelStatusHistoryRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class TripService {
 
 	@Autowired
@@ -31,7 +34,7 @@ public class TripService {
 	private TravelStatusHistoryRepository travelStatusHistoryRepository;
 	
 	public void startTrip(PassengerCache passengerCache, DriverCache driverCache) {
-		System.out.println("Trip started. Passenger ID: " + passengerCache.getId() + " Driver ID: " + driverCache.getId());
+		log.info("Trip started. Passenger ID: " + passengerCache.getId() + " Driver ID: " + driverCache.getId());
 		Travel travel = new Travel();
 		travel.setIdDriver(driverCache.getId());
 		travel.setIdPassenger(passengerCache.getId());
@@ -44,12 +47,12 @@ public class TripService {
 	}
 	
 	public void matchTrip() {
-		System.out.println("Matching trips...");
+		log.info("Matching trips...");
 		List<PassengerCache> passengersWaiting = passengerCacheService.getPassengersWaiting();
-		System.out.println(passengersWaiting.toString());
-		System.out.println("Passengers waiting for trip: " + passengersWaiting.size());
+		log.info(passengersWaiting.toString());
+		log.info("Passengers waiting for trip: " + passengersWaiting.size());
 		passengersWaiting.stream().forEach(passenger -> {
-			System.out.println("Finding driver for " + passenger.getAddressOrigin() + " and " + passenger.getDistrict());
+			log.info("Finding driver for " + passenger.getAddressOrigin() + " and " + passenger.getDistrict());
 			DriverCache driverCache = driverCacheService.getDriverAvailaibleForPassenger(passenger.getAddressOrigin(), passenger.getDistrict());
 			if (driverCache != null) {
 				startTrip(passenger, driverCache);

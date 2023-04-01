@@ -12,7 +12,7 @@
                 <pattern>
                     <pattern>
                         {
-                        	"app": "driver"
+                        	"app": "trip"
                         }
                     </pattern>
                 </pattern>
